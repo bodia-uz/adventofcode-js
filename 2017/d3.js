@@ -4,6 +4,13 @@
 // 20   7   8   9  10
 // 21  22  23---> ...
 
+// 147  142  133  122   59
+// 304    5    4    2   57
+// 330   10    1    1   54
+// 351   11   23   25   26
+// 362  747  806--->   ...
+
+// part1
 distance(6);/*?*/
 distance(8);/*?*/
 distance(9);/*?*/
@@ -14,6 +21,13 @@ distance(23);/*?*/
 distance(1024);/*?*/
 distance(347991);/*?*/
 
+// part2
+getSumMoreThen(5);/*?*/
+getSumMoreThen(10);/*?*/
+getSumMoreThen(23);/*?*/
+getSumMoreThen(806);/*?*/
+getSumMoreThen(347991);/*?*/
+
 function distance(number) {
   const [hSteps, vSteps] = getPathFromNumberToCenter(number);
 
@@ -21,6 +35,59 @@ function distance(number) {
   const steps = Math.abs(hSteps) + Math.abs(vSteps);
 
   return [[hSteps, vSteps], steps];
+}
+
+function getSumMoreThen(maxValue) {
+  let number = 1;
+  let sum = 1;
+
+  while (sum <= maxValue) {
+    number++;
+    sum = getCell(number).sum;
+  }
+
+  return sum;
+}
+
+function getCell(number) {
+  const cellsByNumber = getCell._cellsByNumber = getCell._cellsByNumber || new Map();
+
+  if (!cellsByNumber.has(number)) {
+    const path = getPathFromNumberToCenter(number);
+    const cell = {
+      number: number,
+      path: path,
+      sum: calcCellSum(number, path)
+    };
+
+    cellsByNumber.set(cell.number, cell);
+  }
+
+  return cellsByNumber.get(number);
+}
+
+function calcCellSum(number, path) {
+  if (number <= 2) {
+    return 1;
+  }
+
+  const prevCells = Array
+    .from({ length: number - 1})
+    .map((_, index) => getCell(index + 1));
+
+  // all first 4 cells are adjacent.
+  // other cells should be in distance 1 step (or 2 for diagonal)
+  const adjacentCells = (
+    number <= 4
+      ? prevCells
+      : prevCells
+        .filter(cell => (
+          Math.abs(cell.path[0] - path[0]) <= 1 &&
+          Math.abs(cell.path[1] - path[1]) <= 1
+        ))
+  );
+
+  return adjacentCells.reduce((sum, cell) => sum + cell.sum, 0);
 }
 
 /**
@@ -40,10 +107,16 @@ function getPathFromNumberToCenter(number) {
   const maxStepsToRight = numberSquareRoot - 1;
 
   // subtract `steps to square` from `path from square to center`
-  return (
+  const path = (
     numberStepsToSquare <= maxStepsToRight
       ? [numberSquarePath[0] - numberStepsToSquare, numberSquarePath[1]]
       : [numberSquarePath[0] - maxStepsToRight, numberSquarePath[1] - (numberStepsToSquare - maxStepsToRight)]
+  );
+
+  return (
+    numberSquareRoot % 2 !== 0
+      ? [-path[0], -path[1]]
+      : path
   );
 }
 
