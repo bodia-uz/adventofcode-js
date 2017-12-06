@@ -28,7 +28,11 @@ function balanceBlocks(banks) {
     cycles++;
   } while (!history.includes(banks.toString()));
 
-  return {banks, cycles};
+  return {
+    banks,
+    cycles,
+    cyclesToLoop: cycles - history.indexOf(banks.toString())
+  };
 }
 
 function nextBankIndex(banks, index) {
