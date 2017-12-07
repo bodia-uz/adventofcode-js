@@ -1,17 +1,14 @@
-// part 1
-walk([0, 3, 0, 1, -3])/*?*/
+export const part1 = input => walk(input, increment);
+export const part2 = input => walk(input, incrementOrDecrement);
 
-// part 2
-walk([0, 3, 0, 1, -3], updateOffset)/*?*/
-
-function walk(maze, updateOffset = increment) {
+function walk(maze, updateOffset) {
   let steps = 0;
   let current = 0;
 
   // prevent mutating source maze
   maze = [...maze];
 
-  while (current >= 0 && current <= maze.length - 1) {
+  while (current >= 0 && current < maze.length) {
     const instruction = maze[current];
 
     maze[current] = updateOffset(maze[current]);
@@ -23,7 +20,7 @@ function walk(maze, updateOffset = increment) {
   return steps;
 }
 
-function updateOffset(offset) {
+function incrementOrDecrement(offset) {
   return offset < 3 ? increment(offset) : decrement(offset);
 }
 
