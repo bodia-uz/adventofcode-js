@@ -1,0 +1,23 @@
+{
+  "name": "adventofcode-bohdan-l",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bodia-uz/adventofcode-js.git"
+  },
+  "author": "bodia_uz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bodia-uz/adventofcode-js/issues"
+  },
+  "homepage": "https://github.com/bodia-uz/adventofcode-js#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^21.2.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "jest": "^21.2.1"
+  }
+}
