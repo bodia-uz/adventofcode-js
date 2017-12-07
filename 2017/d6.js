@@ -1,5 +1,5 @@
-balanceBlocks([0, 2, 7, 0])/*?*/
-balanceBlocks([4, 1, 15, 12, 0, 9, 9, 5, 5, 8, 7, 3, 14, 5, 12, 3])/*?*/
+export const part1 = input => balanceBlocks(input).cycles;
+export const part2 = input => balanceBlocks(input).cyclesToLoop;
 
 function balanceBlocks(banks) {
   const history = [];
