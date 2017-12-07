@@ -1,3 +1,6 @@
+export const part1 = input => distance(input);
+export const part2 = input => getSumMoreThen(input);
+
 // 17  16  15  14  13
 // 18   5   4   3  12
 // 19   6   1   2  11
@@ -10,31 +13,13 @@
 // 351   11   23   25   26
 // 362  747  806--->   ...
 
-// part1
-distance(6);/*?*/
-distance(8);/*?*/
-distance(9);/*?*/
-distance(11);/*?*/
-distance(13);/*?*/
-distance(15);/*?*/
-distance(23);/*?*/
-distance(1024);/*?*/
-distance(347991);/*?*/
-
-// part2
-getSumMoreThen(5);/*?*/
-getSumMoreThen(10);/*?*/
-getSumMoreThen(23);/*?*/
-getSumMoreThen(806);/*?*/
-getSumMoreThen(347991);/*?*/
-
 function distance(number) {
   const [hSteps, vSteps] = getPathFromNumberToCenter(number);
 
   // add path steps
   const steps = Math.abs(hSteps) + Math.abs(vSteps);
 
-  return [[hSteps, vSteps], steps];
+  return steps;
 }
 
 function getSumMoreThen(maxValue) {
