@@ -1,5 +1,5 @@
-export const part1 = (input) => calcGroups(input).groupsScore;
-export const part2 = (input) => calcGroups(input).garbageCharactersCount;
+export const part1 = (input) => processStream(input).groupsScore;
+export const part2 = (input) => processStream(input).garbageCharactersCount;
 
 const Token = {
   GROUP_OPEN: '{',
@@ -9,61 +9,78 @@ const Token = {
   GARBAGE_IGNORE: '!',
 };
 
-function calcGroups(input) {
-  const tokens = input.split('');
-
-  let groupIndex = 0;
-  let garbageIndex = 0;
-  let garbageIgnoreIndex = 0;
-  let garbageCharactersCount = 0;
-
-  let groupsCount = 0;
-  let groupsScore = 0;
-
-  tokens.forEach(token => {
-    if (garbageIndex) {
-      if (garbageIgnoreIndex) {
-        garbageIgnoreIndex--;
-        return;
-      }
-
-      switch (token) {
-        case Token.GARBAGE_IGNORE:
-          garbageIgnoreIndex++;
-          break;
-
-        case Token.GARBAGE_CLOSE:
-          garbageIndex--;
-          break;
-
-        default:
-          garbageCharactersCount++;
-          break;
-      }
-
-      return;
-    }
-
-    switch (token) {
-      case Token.GARBAGE_OPEN:
-        garbageIndex++;
-        break;
-
-      case Token.GROUP_OPEN:
-        groupIndex++;
-        break;
-
-      case Token.GROUP_CLOSE:
-        groupIndex--;
-        groupsScore += groupIndex + 1;
-        groupsCount++;
-        break;
-    }
-  });
-
-  return {
-    groupsCount,
-    groupsScore,
-    garbageCharactersCount
+function processStream(stream) {
+  const tokens = stream.split('');
+  const initialStreamState = {
+    groupIndex: 0,
+    groupsCount: 0,
+    groupsScore: 0,
+    garbageCharactersCount: 0,
+    isWithinGarbage: false,
+    isWithinGarbageIgnore: false
   };
+
+  return tokens.reduce((streamState, token) => (
+    processStreamToken(streamState, token)
+  ), initialStreamState);
+}
+
+function processStreamToken(streamState, token) {
+  if (streamState.isWithinGarbage) {
+    return processStreamGarbageToken(streamState, token);
+  }
+
+  switch (token) {
+    case Token.GARBAGE_OPEN:
+      return {
+        ...streamState,
+        isWithinGarbage: true
+      };
+
+    case Token.GROUP_OPEN:
+      return {
+        ...streamState,
+        groupIndex: streamState.groupIndex + 1
+      };
+
+    case Token.GROUP_CLOSE:
+      return {
+        ...streamState,
+        groupsScore: streamState.groupsScore + streamState.groupIndex,
+        groupsCount: streamState.groupsCount + 1,
+        groupIndex: streamState.groupIndex - 1
+      };
+  }
+
+  return streamState;
+}
+
+function processStreamGarbageToken(streamState, token) {
+  if (streamState.isWithinGarbageIgnore) {
+    // ignore all tokens after ignore (!) token
+    return {
+      ...streamState,
+      isWithinGarbageIgnore: false
+    };
+  }
+
+  switch (token) {
+    case Token.GARBAGE_IGNORE:
+      return {
+        ...streamState,
+        isWithinGarbageIgnore: true
+      };
+
+    case Token.GARBAGE_CLOSE:
+      return {
+        ...streamState,
+        isWithinGarbage: false
+      };
+
+    default:
+      return {
+        ...streamState,
+        garbageCharactersCount: streamState.garbageCharactersCount + 1
+      };
+  }
 }
