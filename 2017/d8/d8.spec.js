@@ -1,4 +1,4 @@
-import {part1, parseInput} from './d8';
+import {part1, part2, parseInput} from './d8';
 
 import input1Source from './d8.input1.txt';
 import input2Source from './d8.input2.txt';
@@ -13,6 +13,15 @@ describe('2017/Day 8', () => {
     });
     it('should resolve input', () => {
       expect(part1(input2)).toBe(4888);
+    });
+  });
+
+  describe('part2', () => {
+    it('should resolve example', () => {
+      expect(part2(input1)).toBe(10);
+    });
+    it('should resolve input', () => {
+      expect(part2(input2)).toBe(7774);
     });
   });
 });

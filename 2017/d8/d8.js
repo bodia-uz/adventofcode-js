@@ -1,10 +1,12 @@
 export const part1 = input => findMaxRegisterValueAfterInstructions(input);
+export const part2 = input => findMaxRegisterValueDuringInstructions(input);
 
 export {
   parseInput
 }
 
 const INSTRUCTION_PATTERN = /([a-z]+) (inc|dec) (-?\d+) if ([a-z]+) ([!=<>]+) (-?\d+)/;
+const REGISTERS_METADATA_KEY = Symbol('REGISTERS_METADATA_KEY');
 
 function findMaxRegisterValueAfterInstructions(instructions) {
   const registers = processInstructions(instructions);
@@ -13,8 +15,18 @@ function findMaxRegisterValueAfterInstructions(instructions) {
   return Math.max(...values);
 }
 
+function findMaxRegisterValueDuringInstructions(instructions) {
+  const registers = processInstructions(instructions);
+  const registersMetadata = registers[REGISTERS_METADATA_KEY];
+  const maxValues = Object.values(registersMetadata).map(({ max }) => max);
+
+  return Math.max(...maxValues);
+}
+
 function processInstructions(instructions) {
-  const initialRegisters = {};
+  const initialRegisters = {
+    [REGISTERS_METADATA_KEY]: {}
+  };
 
   return instructions.reduce(processInstruction, initialRegisters);
 }
@@ -37,14 +49,28 @@ function processInstruction(registers, {
       conditionValue
     )
   ) {
-    registers[instructionRegister] = callInstruction(
+    updateRegister(registers, instructionRegister, callInstruction(
       instruction,
       instructionRegisterValue,
       instructionValue
-    );
+    ));
   }
 
   return registers;
+}
+
+function updateRegister(registers, register, registerValue) {
+  const registersMetadata = registers[REGISTERS_METADATA_KEY];
+  const {
+    min: registerMinValue = 0,
+    max: registerMaxValue = 0
+  } = registersMetadata[register] || {};
+
+  registers[register] = registerValue;
+  registers[REGISTERS_METADATA_KEY][register] = {
+    min: Math.min(registerValue, registerMinValue),
+    max: Math.max(registerValue, registerMaxValue)
+  };
 }
 
 function isCondition(condition, valueA, valueB) {
