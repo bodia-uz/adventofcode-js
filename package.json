@@ -17,6 +17,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-jest": "^21.2.0",
+    "babel-plugin-inline-import": "^2.0.6",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "jest": "^21.2.1"
   }
