@@ -1,4 +1,5 @@
 export const part1 = (input) => calcGroups(input).groupsScore;
+export const part2 = (input) => calcGroups(input).garbageCharactersCount;
 
 const Token = {
   GROUP_OPEN: '{',
@@ -14,6 +15,7 @@ function calcGroups(input) {
   let groupIndex = 0;
   let garbageIndex = 0;
   let garbageIgnoreIndex = 0;
+  let garbageCharactersCount = 0;
 
   let groupsCount = 0;
   let groupsScore = 0;
@@ -32,6 +34,10 @@ function calcGroups(input) {
 
         case Token.GARBAGE_CLOSE:
           garbageIndex--;
+          break;
+
+        default:
+          garbageCharactersCount++;
           break;
       }
 
@@ -57,6 +63,7 @@ function calcGroups(input) {
 
   return {
     groupsCount,
-    groupsScore
+    groupsScore,
+    garbageCharactersCount
   };
 }
