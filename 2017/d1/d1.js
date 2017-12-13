@@ -16,6 +16,9 @@ function getCaptchaSum(input, aroundDistance) {
 function getDigitAround(digits, index, aroundDistance) {
   const aroundIndex = index + aroundDistance;
 
+  // NOTE: as variant
+  // return digits[aroundIndex % digits.length];
+
   return (
     aroundIndex < digits.length
       ? digits[aroundIndex]
