@@ -1,4 +1,4 @@
-import {part1, part2} from './d4';
+import { part1, part2 } from './d4';
 
 const inputs = `
 xnesq srsx pkzaoh cfqzugh
@@ -7,7 +7,9 @@ jsqq tzwak hephg eqwczd ioisa yim tmdifn mceip
 onb eiab bno nob
 mqslq scnelxv hyllrf scnelxv mqslq wmnbk
 pttu kubby lgop bbyuk gsk skg ikktlbb inbyvz
-`.trim().split('\n');
+`
+  .trim()
+  .split('\n');
 
 describe('2017/Day 4', () => {
   describe('part1', () => {

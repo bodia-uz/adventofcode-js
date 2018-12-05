@@ -31,14 +31,10 @@ function balanceBlocks(banks) {
   return {
     banks,
     cycles,
-    cyclesToLoop: cycles - history.indexOf(banks.toString())
+    cyclesToLoop: cycles - history.indexOf(banks.toString()),
   };
 }
 
 function nextBankIndex(banks, index) {
-  return (
-    index !== banks.length - 1
-      ? index + 1
-      : 0
-  );
+  return index !== banks.length - 1 ? index + 1 : 0;
 }

@@ -1,4 +1,4 @@
-import {part1, part2} from './d6';
+import { part1, part2 } from './d6';
 
 describe('2017/Day 6', () => {
   const input1 = [0, 2, 7, 0];

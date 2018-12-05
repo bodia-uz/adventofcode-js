@@ -19,7 +19,4 @@ function calcFrequency2(changes, result = 0, history = {}) {
 const part1 = input => calcFrequency(input);
 const part2 = input => calcFrequency2(input);
 
-export {
-  part1,
-  part2
-}
+export { part1, part2 };

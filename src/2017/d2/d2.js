@@ -2,8 +2,7 @@ export const part1 = input => getCheckSum(input, getMinMaxCheckSum);
 export const part2 = input => getCheckSum(input, getEvenlyDivisibleCheckSum);
 
 function getCheckSum(spreadsheet, getRowCheckSum) {
-  return spreadsheet
-    .reduce((sum, row) => sum + getRowCheckSum(row), 0);
+  return spreadsheet.reduce((sum, row) => sum + getRowCheckSum(row), 0);
 }
 
 function getMinMaxCheckSum(array) {

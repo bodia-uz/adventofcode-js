@@ -4,8 +4,8 @@ export const part2 = input => isPassPhraseValid(input, isAnagram);
 function isPassPhraseValid(phrase, isDuplicate) {
   const phraseWords = phrase.split(' ');
 
-  for(let i = 0; i < phraseWords.length; i++) {
-    for(let j = i + 1; j < phraseWords.length; j++) {
+  for (let i = 0; i < phraseWords.length; i++) {
+    for (let j = i + 1; j < phraseWords.length; j++) {
       if (isDuplicate(phraseWords[i], phraseWords[j])) {
         return false;
       }
@@ -24,5 +24,8 @@ function isAnagram(word1, word2) {
 }
 
 function sortCharacters(word) {
-  return word.split('').sort().join();
+  return word
+    .split('')
+    .sort()
+    .join();
 }

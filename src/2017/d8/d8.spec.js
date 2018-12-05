@@ -1,4 +1,4 @@
-import {part1, part2, parseInput} from './d8';
+import { part1, part2, parseInput } from './d8';
 
 import input1Source from './d8.input1.txt';
 import input2Source from './d8.input2.txt';

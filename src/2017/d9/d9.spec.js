@@ -1,4 +1,4 @@
-import {part1, part2} from './d9';
+import { part1, part2 } from './d9';
 
 import input from './d9.input.txt';
 

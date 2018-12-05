@@ -35,14 +35,15 @@ function getSumMoreThen(maxValue) {
 }
 
 function getCell(number) {
-  const cellsByNumber = getCell._cellsByNumber = getCell._cellsByNumber || new Map();
+  const cellsByNumber = (getCell._cellsByNumber =
+    getCell._cellsByNumber || new Map());
 
   if (!cellsByNumber.has(number)) {
     const path = getPathFromNumberToCenter(number);
     const cell = {
       number: number,
       path: path,
-      sum: calcCellSum(number, path)
+      sum: calcCellSum(number, path),
     };
 
     cellsByNumber.set(cell.number, cell);
@@ -56,21 +57,20 @@ function calcCellSum(number, path) {
     return 1;
   }
 
-  const prevCells = Array
-    .from({ length: number - 1})
-    .map((_, index) => getCell(index + 1));
+  const prevCells = Array.from({ length: number - 1 }).map((_, index) =>
+    getCell(index + 1),
+  );
 
   // all first 4 cells are adjacent.
   // other cells should be in distance 1 step (or 2 for diagonal)
-  const adjacentCells = (
+  const adjacentCells =
     number <= 4
       ? prevCells
-      : prevCells
-        .filter(cell => (
-          Math.abs(cell.path[0] - path[0]) <= 1 &&
-          Math.abs(cell.path[1] - path[1]) <= 1
-        ))
-  );
+      : prevCells.filter(
+          cell =>
+            Math.abs(cell.path[0] - path[0]) <= 1 &&
+            Math.abs(cell.path[1] - path[1]) <= 1,
+        );
 
   return adjacentCells.reduce((sum, cell) => sum + cell.sum, 0);
 }
@@ -92,17 +92,15 @@ function getPathFromNumberToCenter(number) {
   const maxStepsToRight = numberSquareRoot - 1;
 
   // subtract `steps to square` from `path from square to center`
-  const path = (
+  const path =
     numberStepsToSquare <= maxStepsToRight
       ? [numberSquarePath[0] - numberStepsToSquare, numberSquarePath[1]]
-      : [numberSquarePath[0] - maxStepsToRight, numberSquarePath[1] - (numberStepsToSquare - maxStepsToRight)]
-  );
+      : [
+          numberSquarePath[0] - maxStepsToRight,
+          numberSquarePath[1] - (numberStepsToSquare - maxStepsToRight),
+        ];
 
-  return (
-    numberSquareRoot % 2 !== 0
-      ? [-path[0], -path[1]]
-      : path
-  );
+  return numberSquareRoot % 2 !== 0 ? [-path[0], -path[1]] : path;
 }
 
 /**
@@ -113,9 +111,7 @@ function getPathFromNumberToCenter(number) {
 function getPathFromSquareToCenter(numberSquareRoot) {
   const numberSquareRootHalf = Math.floor(numberSquareRoot / 2);
 
-  return (
-    numberSquareRoot % 2 === 0
-      ? [numberSquareRootHalf - 1, numberSquareRootHalf]
-      : [numberSquareRootHalf, numberSquareRootHalf]
-  );
+  return numberSquareRoot % 2 === 0
+    ? [numberSquareRootHalf - 1, numberSquareRootHalf]
+    : [numberSquareRootHalf, numberSquareRootHalf];
 }

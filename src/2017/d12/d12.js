@@ -1,9 +1,7 @@
 export const part1 = input => createGroupsMap(input).get(0).length;
 export const part2 = input => createGroupsMap(input).size;
 
-export {
-  createConnectionsMap as parseInput
-};
+export { createConnectionsMap as parseInput };
 
 const CONNECTION_PATTERN = /(\d+) <-> ([\d,\s]+)/;
 
@@ -36,13 +34,13 @@ function getKeyConnections(key, connectionMap, processedKeys = []) {
   const keyConnections = [...keyDirectConnections];
 
   keyDirectConnections.forEach(_key => {
-    getKeyConnections(_key, connectionMap, processedKeys.concat(key))
-      .forEach(__key => {
+    getKeyConnections(_key, connectionMap, processedKeys.concat(key)).forEach(
+      __key => {
         if (!keyConnections.includes(__key)) {
           keyConnections.push(__key);
         }
-      });
-
+      },
+    );
   });
 
   return keyConnections;

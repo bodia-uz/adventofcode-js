@@ -1,5 +1,5 @@
-export const part1 = (input) => processStream(input).groupsScore;
-export const part2 = (input) => processStream(input).garbageCharactersCount;
+export const part1 = input => processStream(input).groupsScore;
+export const part2 = input => processStream(input).garbageCharactersCount;
 
 const Token = {
   GROUP_OPEN: '{',
@@ -17,12 +17,13 @@ function processStream(stream) {
     groupsScore: 0,
     garbageCharactersCount: 0,
     isWithinGarbage: false,
-    isWithinGarbageIgnore: false
+    isWithinGarbageIgnore: false,
   };
 
-  return tokens.reduce((streamState, token) => (
-    processStreamToken(streamState, token)
-  ), initialStreamState);
+  return tokens.reduce(
+    (streamState, token) => processStreamToken(streamState, token),
+    initialStreamState,
+  );
 }
 
 function processStreamToken(streamState, token) {
@@ -34,13 +35,13 @@ function processStreamToken(streamState, token) {
     case Token.GARBAGE_OPEN:
       return {
         ...streamState,
-        isWithinGarbage: true
+        isWithinGarbage: true,
       };
 
     case Token.GROUP_OPEN:
       return {
         ...streamState,
-        groupIndex: streamState.groupIndex + 1
+        groupIndex: streamState.groupIndex + 1,
       };
 
     case Token.GROUP_CLOSE:
@@ -48,7 +49,7 @@ function processStreamToken(streamState, token) {
         ...streamState,
         groupsScore: streamState.groupsScore + streamState.groupIndex,
         groupsCount: streamState.groupsCount + 1,
-        groupIndex: streamState.groupIndex - 1
+        groupIndex: streamState.groupIndex - 1,
       };
   }
 
@@ -60,7 +61,7 @@ function processStreamGarbageToken(streamState, token) {
     // ignore all tokens after ignore (!) token
     return {
       ...streamState,
-      isWithinGarbageIgnore: false
+      isWithinGarbageIgnore: false,
     };
   }
 
@@ -68,19 +69,19 @@ function processStreamGarbageToken(streamState, token) {
     case Token.GARBAGE_IGNORE:
       return {
         ...streamState,
-        isWithinGarbageIgnore: true
+        isWithinGarbageIgnore: true,
       };
 
     case Token.GARBAGE_CLOSE:
       return {
         ...streamState,
-        isWithinGarbage: false
+        isWithinGarbage: false,
       };
 
     default:
       return {
         ...streamState,
-        garbageCharactersCount: streamState.garbageCharactersCount + 1
+        garbageCharactersCount: streamState.garbageCharactersCount + 1,
       };
   }
 }

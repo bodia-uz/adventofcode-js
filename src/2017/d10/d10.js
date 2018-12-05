@@ -1,4 +1,4 @@
-export {part1, part2};
+export { part1, part2 };
 
 function part1(list, length) {
   list = processList(list, length);
@@ -11,14 +11,11 @@ function part2(input) {
 }
 
 function getKnotHash(string) {
-  return getDenseHash(getSparseHash(string))
-    .reduce((acc, value) => {
-      const valueHash = value
-        .toString(16)
-        .padStart(2, 0);
+  return getDenseHash(getSparseHash(string)).reduce((acc, value) => {
+    const valueHash = value.toString(16).padStart(2, 0);
 
-      return acc + valueHash;
-    }, '');
+    return acc + valueHash;
+  }, '');
 }
 
 function getDenseHash(sparseHash) {
@@ -31,11 +28,8 @@ function getDenseHash(sparseHash) {
   while (blockIndex < blocksCount) {
     denseHash.push(
       sparseHash
-        .slice(
-          blockIndex * blockSize,
-          blockIndex * blockSize + blockSize
-        )
-        .reduce((sum, value) => sum ^ value, 0)
+        .slice(blockIndex * blockSize, blockIndex * blockSize + blockSize)
+        .reduce((sum, value) => sum ^ value, 0),
     );
 
     blockIndex++;
@@ -48,7 +42,7 @@ function getSparseHash(string) {
   const lengths = getSparseHashLength(string);
   const list = Array.from(Array(256).keys());
 
-  return processList(list, lengths, 64)
+  return processList(list, lengths, 64);
 }
 
 function processList(list, lengths, rounds = 1) {
@@ -97,5 +91,5 @@ function getSparseHashLength(string) {
   return string
     .split('')
     .map(char => char.charCodeAt(0))
-    .concat([17, 31, 73, 47, 23])
+    .concat([17, 31, 73, 47, 23]);
 }

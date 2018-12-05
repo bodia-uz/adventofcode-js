@@ -1,14 +1,13 @@
 export const part1 = input => findRootTower(input).name;
-export const part2 = input => findUnbalancedTower(buildTower(input)).balancedWeight;
+export const part2 = input =>
+  findUnbalancedTower(buildTower(input)).balancedWeight;
 
-export {
-  parseInput
-}
+export { parseInput };
 
 function findUnbalancedTower(tower, unbalancedTowerParent) {
-  const unbalancedTower = tower
-    .children
-    .find(t => tower.children.filter(c => c.weightSum === t.weightSum).length === 1);
+  const unbalancedTower = tower.children.find(
+    t => tower.children.filter(c => c.weightSum === t.weightSum).length === 1,
+  );
 
   if (unbalancedTower && unbalancedTower.children.length) {
     return findUnbalancedTower(unbalancedTower, tower);
@@ -17,18 +16,18 @@ function findUnbalancedTower(tower, unbalancedTowerParent) {
   // if `tower` is unbalanced and `tower` children are balanced,
   // then `tower.weight` is unbalanced
   if (unbalancedTowerParent) {
-    const unbalancedTowerSibling = unbalancedTowerParent
-      .children.find(t => t !== tower);
+    const unbalancedTowerSibling = unbalancedTowerParent.children.find(
+      t => t !== tower,
+    );
 
     // find valid (balanced) tower weight
-    const balancedWeight = (
-      tower.weight - (tower.weightSum - unbalancedTowerSibling.weightSum)
-    );
+    const balancedWeight =
+      tower.weight - (tower.weightSum - unbalancedTowerSibling.weightSum);
 
     return {
       tower,
       towerParent: unbalancedTowerParent,
-      balancedWeight
+      balancedWeight,
     };
   }
 }
@@ -41,35 +40,34 @@ function buildTower(towers) {
 }
 
 function findRootTower(towers) {
-  const towersWithChildren = towers
-    .filter(tower => tower.children.length);
+  const towersWithChildren = towers.filter(tower => tower.children.length);
 
-  return towersWithChildren.find(tower => (
-    tower.children &&
-    tower.children.length &&
-    !towersWithChildren.some(t1 =>
-      t1.children.some(t2 => t2.name === tower.name)
-    )
-  ));
+  return towersWithChildren.find(
+    tower =>
+      tower.children &&
+      tower.children.length &&
+      !towersWithChildren.some(t1 =>
+        t1.children.some(t2 => t2.name === tower.name),
+      ),
+  );
 }
 
 function buildTowerWithTowersMap(tower, towersByName) {
   return {
     ...tower,
-    children: tower
-      .children
-      .map(t => {
-        t = buildTowerWithTowersMap(towersByName.get(t.name), towersByName);
-        t.weightSum = getTowerWeightSum(t);
-        return t;
-      })
-  }
+    children: tower.children.map(t => {
+      t = buildTowerWithTowersMap(towersByName.get(t.name), towersByName);
+      t.weightSum = getTowerWeightSum(t);
+      return t;
+    }),
+  };
 }
 
 function getTowerWeightSum(tower) {
-  return tower
-    .children
-    .reduce((sum, t) => sum + getTowerWeightSum(t), tower.weight)
+  return tower.children.reduce(
+    (sum, t) => sum + getTowerWeightSum(t),
+    tower.weight,
+  );
 }
 
 function parseInput(input) {
@@ -84,11 +82,7 @@ function parseInput(input) {
       return {
         name,
         weight: parseInt(weight, 10),
-        children: (
-          children
-            ? children.split(', ').map(name => ({ name }))
-            : []
-        )
+        children: children ? children.split(', ').map(name => ({ name })) : [],
       };
     });
 }

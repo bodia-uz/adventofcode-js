@@ -19,9 +19,7 @@ function getDigitAround(digits, index, aroundDistance) {
   // NOTE: as variant
   // return digits[aroundIndex % digits.length];
 
-  return (
-    aroundIndex < digits.length
-      ? digits[aroundIndex]
-      : digits[aroundIndex - digits.length]
-  );
+  return aroundIndex < digits.length
+    ? digits[aroundIndex]
+    : digits[aroundIndex - digits.length];
 }
